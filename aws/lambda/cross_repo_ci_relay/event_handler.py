@@ -53,9 +53,7 @@ def _dispatch_to_allowlist(
     failed: list[dict] = []
     # Limit max workers to avoid overwhelming GitHub API and
     # to prevent excessive resource usage in the Lambda function
-    max_workers = min(
-        len(targets), 2 * (os.cpu_count() or 1), config.max_dispatch_workers
-    )
+    max_workers = min(len(targets), config.max_dispatch_workers)
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
         future_to_repo = {
             pool.submit(

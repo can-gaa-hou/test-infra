@@ -84,6 +84,10 @@ def lambda_handler(event, context):
         )
 
         payload = json.loads(body_bytes) if body_bytes else {}
+        # For pull_request events that's ~50-100KB of JSON.
+        # GitHub's repository_dispatch has a 65KB limit on client_payload.
+        # A large PR event (lots of labels, long body, many reviewers) could silently fail dispatch.
+        logger.info("payload size=(%d) KB", len(body_bytes) // 1024)
         repo = (payload.get("repository") or {}).get("full_name", "")
 
         if repo.lower() != config.upstream_repo.lower():

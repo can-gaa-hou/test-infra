@@ -1,0 +1,29 @@
+name: Test cross-repo-ci-relay lambda
+
+on:
+  pull_request:
+    paths:
+      - 'aws/lambda/cross_repo_ci_relay/**'
+
+defaults:
+  run:
+    working-directory: aws/lambda/cross_repo_ci_relay/
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run tests
+        run: pytest -v tests/

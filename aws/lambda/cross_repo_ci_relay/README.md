@@ -63,7 +63,7 @@ make clean
 
 #### Local
 
-- Python 3.10+
+- Python 3.13
 - A running Redis instance:
   ```bash
   # Using the built-in "default" user with a password:
@@ -77,6 +77,7 @@ make clean
   npm install -g smee-client
   smee --url https://smee.io/<your-channel> --path /github/webhook --port 8000
   ```
+- `ALLOWLIST_URL` environment variable can point to a test file in a GitHub repo you control to avoid hitting the real downstream repos during development. Just make sure to include some test repos in the allowlist for the relay to dispatch to.
 
 #### Remote
 
